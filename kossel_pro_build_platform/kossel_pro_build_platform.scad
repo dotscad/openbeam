@@ -26,7 +26,7 @@
 
 extrusion = 15;
 width = 360;  // http://ztautomations.dozuki.com/Guide/4%29+Lower+Triangle/9
-glass_r = 125;
+glass_r = 125; // print area is 24cm but the glass is actually 25cm
 
 cntr=tan(30)*(width+22.5)/2;
 
@@ -102,11 +102,10 @@ module beam(h) {
 
 module frame(txt="") {
     union() {
-        beam(50);
+        beam(56+250);
         translate([0, 0, 22.5])   difference() {
-            // No idler cones.
-            vertex(3*extrusion, idler_offset=0, idler_space=100);
-            // KOSSEL logotype.
+            vertex(3*extrusion);
+            // Vertex label
             translate([0, -10, 0]) rotate([90, 0, 0])
               linear_extrude(height=5) text(txt, size=20, valign="center", halign="center");
         }
@@ -133,7 +132,9 @@ module side(txt) {
     }
 }
 
-rotate([0,0,-30]) translate([0,0,-5]) union() {
+// Drop it ever so slightly below zero for the slicing engines (KISSlicer,
+// Cura) that have trouble painting their lines directly on the STL.
+rotate([0,0,-30]) translate([0,0,-5.2]) union() {
     translate([-cntr,-(width+22.5)/2,-(45+6)])  {
         union() {
             side(txt="X");
