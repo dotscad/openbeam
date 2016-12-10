@@ -52,7 +52,12 @@ start_gcode = """; info: M303 E0 S200 C8 ; Pid auto-tune
 M140 S{{material_bed_temperature}}; Start heating up the base
 G28 ; Home to top 3 endstops
 ; Autolevel and adjust first layer
-G29 Z0.25 ; Adjust this value to fit your own printer! (positive is thicker)
+; Adjust this value to fit your own printer!  (positive is thicker)
+; This default value is intentionally very high to accommodate the
+; variety of print heads used with this printer.  Many of you will
+; need tiny values like Z0 or Z0.1.  Use feeler gauges to dial this
+; in as accurately as possible.
+G29 Z10
 
 ; Squirt and wipe ;
 M109 S220 ; Wait for the temp to hit 220
